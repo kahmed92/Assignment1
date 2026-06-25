@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Focus Timer</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.timer-box {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+#mode {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#timer {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 5px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.start {
+    background: #2ecc71;
+    color:white;
+}
+
+.pause {
+    background:#f39c12;
+    color:white;
+}
+
+.reset {
+    background:#e74c3c;
+    color:white;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="timer-box">
+
+<h1>Focus Timer</h1>
+
+<div id="mode">
+Work Session
+</div>
+
+<div id="timer">
+25:00
+</div>
+
+<button class="start" onclick="startTimer()">Start</button>
+<button class="pause" onclick="pauseTimer()">Pause</button>
+<button class="reset" onclick="resetTimer()">Reset</button>
+
+</div>
+
+
+<script>
+
+let workTime = 25 * 60;
+let breakTime = 5 * 60;
+
+let time = workTime;
+let isWork = true;
+
+let timer = null;
+
+
+function updateDisplay(){
+
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    document.getElementById("timer").innerHTML =
+    `${minutes}:${seconds < 10 ? "0":""}${seconds}`;
+
+}
+
+
+function startTimer(){
+
+    if(timer) return;
+
+    timer = setInterval(()=>{
+
+        time--;
+
+        if(time <= 0){
+
+            playSound();
+
+            if(isWork){
+
+                isWork=false;
+                time=breakTime;
+                document.getElementById("mode").innerHTML="Break Time";
+
+            }
+            else{
+
+                isWork=true;
+                time=workTime;
+                document.getElementById("mode").innerHTML="Work Session";
+
+            }
+
+        }
+
+        updateDisplay();
+
+    },1000);
+
+}
+
+
+
+function pauseTimer(){
+
+    clearInterval(timer);
+    timer=null;
+
+}
+
+
+function resetTimer(){
+
+    clearInterval(timer);
+    timer=null;
+
+    isWork=true;
+    time=workTime;
+
+    document.getElementById("mode").innerHTML="Work Session";
+
+    updateDisplay();
+
+}
+
+
+
+function playSound(){
+
+    let audio =
+    new Audio(
+    "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA="
+    );
+
+    audio.play();
+
+}
+
+
+updateDisplay();
+
+</script>
+
+
+</body>
+</html>
