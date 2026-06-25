@@ -48,3 +48,4 @@ Compatible with modern versions of:
 
 ## Author
 Developed as a feature-rich JavaScript Snake Game demonstrating responsive design, game logic, audio controls, theme customization, and mobile-friendly gameplay.
+"# Assignment1" 
